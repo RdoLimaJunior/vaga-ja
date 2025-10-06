@@ -1,0 +1,104 @@
+{
+  "processo_seletivo": {
+    "id": "modelo_selecao_vaga_ja",
+    "nome": "Modelo de Seleção Dinâmico",
+    "descricao": "Pipeline de seleção totalmente configurável por vaga, inspirado em boas práticas de seleção, incluindo etapas online, offline, testes e entrevistas.",
+    "configuravel_por_vaga": true,
+    "etapas_disponiveis": [
+      {
+        "id": "cadastro",
+        "nome": "Cadastro Inicial",
+        "tipo": "formulario",
+        "formato": "online",
+        "descricao": "Candidato preenche dados básicos, currículo e informações de contato.",
+        "obrigatorio": true,
+        "peso_score": 0,
+        "duration": 15,
+        "exemplo": "Upload de currículo em PDF."
+      },
+      {
+        "id": "triagem_inicial",
+        "nome": "Triagem Automática",
+        "tipo": "perguntas_eliminatorias",
+        "formato": "online",
+        "descricao": "Perguntas eliminatórias para requisitos básicos da vaga.",
+        "obrigatorio": true,
+        "peso_score": 0,
+        "duration": 5,
+        "exemplo": "Você possui nível avançado em Excel? (Sim/Não)"
+      },
+      {
+        "id": "teste_perfil",
+        "nome": "Teste de Perfil Comportamental",
+        "tipo": "teste_comportamental",
+        "formato": "online",
+        "descricao": "Avalia estilo comportamental e compatibilidade cultural.",
+        "obrigatorio": false,
+        "peso_score": 0.3,
+        "duration": 20,
+        "exemplo": "Teste Big Five (OCEAN) ou DISC."
+      },
+      {
+        "id": "teste_tecnico",
+        "nome": "Teste Técnico",
+        "tipo": "teste_competencia",
+        "formato": "online",
+        "descricao": "Valida competências técnicas exigidas para a vaga.",
+        "obrigatorio": false,
+        "peso_score": 0.4,
+        "duration": 60,
+        "exemplo": "Prova de lógica de programação ou Excel avançado."
+      },
+      {
+        "id": "video_apresentacao",
+        "nome": "Vídeo de Apresentação",
+        "tipo": "upload_video",
+        "formato": "online",
+        "descricao": "Candidato grava vídeo curto respondendo a uma pergunta-chave.",
+        "obrigatorio": false,
+        "peso_score": 0.1,
+        "duration": 10,
+        "exemplo": "Fale em até 2 minutos sobre um desafio que você superou."
+      },
+      {
+        "id": "entrevista",
+        "nome": "Entrevista",
+        "tipo": "entrevista",
+        "formato": "online_ou_presencial",
+        "descricao": "Entrevista com recrutador ou gestor, podendo ser online ou presencial.",
+        "obrigatorio": false,
+        "peso_score": 0.2,
+        "duration": 45,
+        "exemplo": "Entrevista comportamental no formato STAR."
+      },
+      {
+        "id": "dinamica_grupo",
+        "nome": "Dinâmica de Grupo",
+        "tipo": "atividade_coletiva",
+        "formato": "online_ou_presencial",
+        "descricao": "Observa competências sociais, comunicação e colaboração em grupo.",
+        "obrigatorio": false,
+        "peso_score": 0.2,
+        "duration": 90,
+        "exemplo": "Resolução de case em equipe."
+      },
+      {
+        "id": "decisao_final",
+        "nome": "Decisão Final",
+        "tipo": "avaliacao_humana",
+        "formato": "interno",
+        "descricao": "Recrutadores avaliam notas, afinidade e feedbacks das etapas anteriores para tomar decisão.",
+        "obrigatorio": true,
+        "peso_score": 0,
+        "duration": 0,
+        "exemplo": "Gestor aprova ou reprova candidato para proposta."
+      }
+    ],
+    "regras_score": {
+      "descricao": "Calcula o score final ponderando apenas as etapas com peso > 0.",
+      "formula": "score_final = Σ (nota_etapa * peso_etapa) / Σ (peso_etapa)",
+      "escala": "0-100",
+      "exemplo_saida": 87.5
+    }
+  }
+}

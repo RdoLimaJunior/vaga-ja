@@ -1,0 +1,43 @@
+{
+    "teste": {
+        "id": "disc",
+        "nome": "DISC Assessment",
+        "descricao": "Mede 4 perfis comportamentais: Dominância (D), Influência (I), Estabilidade (S) e Conformidade (C).",
+        "dimensoes": [
+            {"id": "D", "nome": "Dominância"},
+            {"id": "I", "nome": "Influência"},
+            {"id": "S", "nome": "Estabilidade"},
+            {"id": "C", "nome": "Conformidade"}
+        ],
+        "perguntas": [
+            { "id": "q1", "opcoes": { "D": "Aventureiro", "I": "Entusiasta", "S": "Sensível", "C": "Lógico" } },
+            { "id": "q2", "opcoes": { "I": "Sociável", "S": "Estável", "C": "Preciso", "D": "Decidido" } },
+            { "id": "q3", "opcoes": { "S": "Calmo", "C": "Perfeccionista", "D": "Direto", "I": "Inspirador" } },
+            { "id": "q4", "opcoes": { "C": "Sistemático", "D": "Competitivo", "I": "Otimista", "S": "Paciente" } },
+            { "id": "q5", "opcoes": { "D": "Orientado para resultados", "I": "Extrovertido", "S": "Leal", "C": "Cuidadoso" } },
+            { "id": "q6", "opcoes": { "I": "Comunicativo", "S": "Previsível", "C": "Analítico", "D": "Independente" } },
+            { "id": "q7", "opcoes": { "S": "Consistente", "C": "Disciplinado", "D": "Forte", "I": "Divertido" } },
+            { "id": "q8", "opcoes": { "C": "Exato", "D": "Assertivo", "I": "Convincente", "S": "Bom ouvinte" } },
+            { "id": "q9", "opcoes": { "D": "Corajoso", "I": "Animado", "S": "Estável", "C": "Organizado" } },
+            { "id": "q10", "opcoes": { "I": "Popular", "S": "Gentil", "C": "Reservado", "D": "Autoconfiante" } },
+            { "id": "q11", "opcoes": { "S": "Metódico", "C": "Diplomático", "D": "Iniciador", "I": "Alegre" } },
+            { "id": "q12", "opcoes": { "C": "Consciente", "D": "Exigente", "I": "Confiante", "S": "Apoiador" } },
+            { "id": "q13", "opcoes": { "D": "Determinado", "I": "Espontâneo", "S": "Deliberado", "C": "Preciso" } },
+            { "id": "q14", "opcoes": { "I": "Amigável", "S": "Tolerante", "C": "Controlado", "D": "Pioneiro" } },
+            { "id": "q15", "opcoes": { "S": "Tranquilo", "C": "Seguidor de regras", "D": "Resoluto", "I": "Expressivo" } },
+            { "id": "q16", "opcoes": { "C": "Factual", "D": "Direto", "I": "Impulsivo", "S": "Relaxado" } },
+            { "id": "q17", "opcoes": { "D": "Energético", "I": "Magnético", "S": "Previsível", "C": "Cauteloso" } },
+            { "id": "q18", "opcoes": { "I": "Falador", "S": "Cooperativo", "C": "Lógico", "D": "Ousado" } },
+            { "id": "q19", "opcoes": { "S": "Amável", "C": "Alto padrão", "D": "Vigoroso", "I": "Aberto" } },
+            { "id": "q20", "opcoes": { "C": "Comedido", "D": "Rápido", "I": "Emocional", "S": "Moderado" } },
+            { "id": "q21", "opcoes": { "D": "Dominante", "I": "Influente", "S": "Estável", "C": "Conforme" } },
+            { "id": "q22", "opcoes": { "I": "Sociável", "S": "Seguro", "C": "Pesquisador", "D": "Tomador de risco" } },
+            { "id": "q23", "opcoes": { "S": "Agradável", "C": "Formal", "D": "Franco", "I": "Otimista" } },
+            { "id": "q24", "opcoes": { "C": "Preciso", "D": "Impaciente", "I": "Generoso", "S": "Leal" } },
+            { "id": "q25", "opcoes": { "D": "Controlador", "I": "Persuasivo", "S": "Calmo", "C": "Detalhado" } },
+            { "id": "q26", "opcoes": { "I": "Interativo", "S": "Passivo", "C": "Planejador", "D": "Decidido" } },
+            { "id": "q27", "opcoes": { "S": "Protetor", "C": "Perfeccionista", "D": "Corajoso", "I": "Convincente" } },
+            { "id": "q28", "opcoes": { "C": "Estruturado", "D": "Ambicioso", "I": "Confiante", "S": "Solidário" } }
+        ]
+    }
+}

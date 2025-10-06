@@ -1,0 +1,65 @@
+{
+    "teste": {
+        "id": "sjt",
+        "nome": "Teste de Julgamento Situacional (SJT)",
+        "descricao": "Avalia como você reagiria a cenários de trabalho, medindo competências-chave.",
+        "competencias": [
+            {"id": "teamwork", "nome": "Trabalho em Equipe"},
+            {"id": "problemSolving", "nome": "Resolução de Problemas"},
+            {"id": "communication", "nome": "Comunicação"},
+            {"id": "integrity", "nome": "Integridade"}
+        ],
+        "cenarios": [
+            {
+                "id": "s1",
+                "texto": "Você está trabalhando em um projeto importante com um prazo apertado. Um colega, que não está no projeto, pede sua ajuda em uma tarefa urgente dele. A tarefa do seu colega levará cerca de uma hora. O que você faz?",
+                "opcoes": [
+                    { "id": "s1o1", "texto": "Ajuda o colega imediatamente, pois a tarefa dele é urgente e você acredita no trabalho em equipe.", "pontos": {"teamwork": 5, "problemSolving": 1, "communication": 2, "integrity": 3} },
+                    { "id": "s1o2", "texto": "Explica que está com um prazo apertado, mas se oferece para ajudar assim que terminar sua tarefa atual.", "pontos": {"teamwork": 4, "problemSolving": 4, "communication": 5, "integrity": 4} },
+                    { "id": "s1o3", "texto": "Recusa educadamente, explicando que o seu projeto é a prioridade e você não pode se desviar dele.", "pontos": {"teamwork": 2, "problemSolving": 3, "communication": 3, "integrity": 5} },
+                    { "id": "s1o4", "texto": "Sugere que ele procure outra pessoa ou o gerente, pois você não pode ajudar no momento.", "pontos": {"teamwork": 1, "problemSolving": 2, "communication": 1, "integrity": 2} }
+                ]
+            },
+            {
+                "id": "s2",
+                "texto": "Você descobre um erro significativo no relatório de um colega que já foi enviado ao cliente. Seu colega está de férias e inacessível. Qual a sua atitude?",
+                "opcoes": [
+                    { "id": "s2o1", "texto": "Ignora o erro, pois não foi sua responsabilidade e o colega está de férias.", "pontos": {"teamwork": 1, "problemSolving": 1, "communication": 1, "integrity": 1} },
+                    { "id": "s2o2", "texto": "Informa seu gerente sobre o erro imediatamente e sugere um plano para corrigi-lo e contatar o cliente.", "pontos": {"teamwork": 4, "problemSolving": 5, "communication": 5, "integrity": 5} },
+                    { "id": "s2o3", "texto": "Tenta corrigir o erro sozinho antes de falar com qualquer pessoa, para não causar problemas para seu colega.", "pontos": {"teamwork": 2, "problemSolving": 3, "communication": 2, "integrity": 3} },
+                    { "id": "s2o4", "texto": "Envia um e-mail para o cliente com a correção, sem avisar seu gerente, para resolver rapidamente.", "pontos": {"teamwork": 1, "problemSolving": 2, "communication": 3, "integrity": 2} }
+                ]
+            },
+            {
+                "id": "s3",
+                "texto": "Durante uma reunião de equipe, um colega apresenta uma ideia que você acredita firmemente que não funcionará e pode prejudicar o projeto. Como você procede?",
+                "opcoes": [
+                    { "id": "s3o1", "texto": "Interrompe o colega imediatamente e aponta todas as falhas da ideia na frente de todos.", "pontos": {"teamwork": 1, "problemSolving": 2, "communication": 1, "integrity": 2} },
+                    { "id": "s3o2", "texto": "Permanece em silêncio para evitar conflito e não desmotivar o colega.", "pontos": {"teamwork": 2, "problemSolving": 1, "communication": 2, "integrity": 3} },
+                    { "id": "s3o3", "texto": "Espera o colega terminar, reconhece o esforço dele e, em seguida, apresenta suas preocupações de forma construtiva, sugerindo alternativas.", "pontos": {"teamwork": 5, "problemSolving": 4, "communication": 5, "integrity": 5} },
+                    { "id": "s3o4", "texto": "Conversa com o colega em particular após a reunião para expressar suas preocupações, sem envolver a equipe.", "pontos": {"teamwork": 3, "problemSolving": 3, "communication": 4, "integrity": 4} }
+                ]
+            },
+            {
+                "id": "s4",
+                "texto": "Seu gerente lhe dá um feedback negativo sobre uma área do seu trabalho que você não esperava. Qual é a sua reação mais provável?",
+                "opcoes": [
+                    { "id": "s4o1", "texto": "Agradece o feedback, pede exemplos específicos para entender melhor e discute um plano de ação para melhorar.", "pontos": {"teamwork": 4, "problemSolving": 5, "communication": 5, "integrity": 5} },
+                    { "id": "s4o2", "texto": "Sente-se desmotivado e fica quieto, mas tenta melhorar secretamente sem discutir mais o assunto.", "pontos": {"teamwork": 2, "problemSolving": 2, "communication": 1, "integrity": 3} },
+                    { "id": "s4o3", "texto": "Discorda abertamente e tenta justificar suas ações, explicando por que o gerente está errado.", "pontos": {"teamwork": 1, "problemSolving": 1, "communication": 2, "integrity": 2} },
+                    { "id": "s4o4", "texto": "Concorda passivamente com tudo, sem fazer perguntas, apenas para encerrar a conversa rapidamente.", "pontos": {"teamwork": 3, "problemSolving": 2, "communication": 3, "integrity": 3} }
+                ]
+            },
+            {
+                "id": "s5",
+                "texto": "Você percebe que um novo processo implementado na sua equipe está causando mais trabalho e ineficiência, embora a gerência o apoie. O que você faz?",
+                "opcoes": [
+                    { "id": "s5o1", "texto": "Continua usando o processo sem reclamar, pois foi uma decisão da gerência.", "pontos": {"teamwork": 3, "problemSolving": 1, "communication": 2, "integrity": 4} },
+                    { "id": "s5o2", "texto": "Reclama sobre o processo com seus colegas durante o almoço, mas não toma nenhuma atitude formal.", "pontos": {"teamwork": 1, "problemSolving": 1, "communication": 1, "integrity": 1} },
+                    { "id": "s5o3", "texto": "Coleta dados concretos que mostram a ineficiência do processo e agenda uma reunião com seu gerente para apresentar suas descobertas e sugerir melhorias.", "pontos": {"teamwork": 4, "problemSolving": 5, "communication": 5, "integrity": 5} },
+                    { "id": "s5o4", "texto": "Cria sua própria maneira de contornar o processo para fazer seu trabalho mais rápido, sem informar ninguém.", "pontos": {"teamwork": 1, "problemSolving": 3, "communication": 1, "integrity": 2} }
+                ]
+            }
+        ]
+    }
+}
