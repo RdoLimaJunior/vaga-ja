@@ -68,6 +68,24 @@ i18n
             showMore: 'Show CV Details',
             showLess: 'Hide CV Details',
           },
+          candidateView: {
+            welcomeTitle: "Candidate Profile",
+            welcomeSubtitle: "Please fill in your details below to begin the assessment process.",
+            form: {
+              name: "Full Name",
+              namePlaceholder: "e.g., Jane Doe",
+              email: "Email Address",
+              emailPlaceholder: "e.g., jane.doe@example.com",
+              phone: "Phone (Optional)",
+              phonePlaceholder: "e.g., +1 (555) 123-4567",
+              role: "Desired Role",
+              rolePlaceholder: "e.g., Senior Software Engineer",
+              submitButton: "Save & Start Assessments",
+              welcomeBack: "Welcome back, {{name}}!",
+              editInfo: "Edit Information",
+              assessmentsReady: "Your assessments are ready below."
+            }
+          },
           error: {
             analysisFailed: 'Analysis Failed',
             tryAgain: 'An error occurred while analyzing. Please check your inputs and try again.',
@@ -295,6 +313,24 @@ i18n
             skills: 'Principais Habilidades',
             showMore: 'Mostrar Detalhes do CV',
             showLess: 'Ocultar Detalhes do CV',
+          },
+          candidateView: {
+            welcomeTitle: "Perfil do Candidato",
+            welcomeSubtitle: "Por favor, preencha seus dados abaixo para iniciar o processo de avaliação.",
+            form: {
+              name: "Nome Completo",
+              namePlaceholder: "Ex: Maria da Silva",
+              email: "Endereço de E-mail",
+              emailPlaceholder: "Ex: maria.silva@exemplo.com",
+              phone: "Telefone (Opcional)",
+              phonePlaceholder: "Ex: +55 (11) 98765-4321",
+              role: "Vaga Desejada",
+              rolePlaceholder: "Ex: Engenheiro(a) de Software Sênior",
+              submitButton: "Salvar e Iniciar Avaliações",
+              welcomeBack: "Bem-vindo(a) de volta, {{name}}!",
+              editInfo: "Editar Informações",
+              assessmentsReady: "Suas avaliações estão prontas abaixo."
+            }
           },
           error: {
             analysisFailed: 'Falha na Análise',
