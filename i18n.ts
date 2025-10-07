@@ -28,7 +28,9 @@ i18n
             buttons: {
               next: "Next: Add Candidates",
               back: "Back to Job Setup",
-              startOver: "Analyze Another Role"
+              startOver: "Analyze Another Role",
+              assessJob: "Assess Job Description",
+              suggestImprovements: "Suggest Improvements with AI"
             }
           },
           step1: {
@@ -52,9 +54,10 @@ i18n
             },
             add: 'Add Criterion',
             remove: 'Remove Criterion',
+            suggestWithAI: 'Suggest with AI',
           },
           loader: {
-            analyzingText: 'Analyzing Candidates...',
+            analyzingText: 'Analyzing...',
             waitText: 'This might take a moment.',
             loadingTest: 'Loading Test...'
           },
@@ -91,6 +94,21 @@ i18n
             tryAgain: 'An error occurred while analyzing. Please check your inputs and try again.',
             loadTestError: 'Failed to load the test. Please try again later.',
             couldNotLoad: 'Could not load test data.'
+          },
+          jobAssessment: {
+            title: "Job Description Analysis",
+            summary: "Role Summary",
+            responsibilities: "Key Responsibilities",
+            hardSkills: "Technical Skills",
+            softSkills: "Soft Skills"
+          },
+          jobImprovements: {
+            title: "AI-Powered Suggestions",
+            suggestedTitle: "Suggested Title",
+            clarity: "Clarity",
+            engagement: "Engagement",
+            inclusivity: "Inclusivity",
+            revisedDescription: "Revised Description"
           },
           tests: {
               startButton: 'Start Test',
@@ -199,6 +217,53 @@ i18n
               ---
               {{candidate_cv}}
               ---
+            `,
+            suggestCriteriaPrompt: `
+              You are an expert recruitment strategist. Analyze the following Job Description and identify the most critical skills, experiences, and qualifications.
+              
+              Instructions:
+              1.  Read the Job Description thoroughly.
+              2.  Identify a list of 5 to 7 essential criteria for evaluating a candidate for this role.
+              3.  For each criterion, assign an importance weight from 1 (Low) to 5 (High).
+              4.  The output must be a JSON object that strictly follows the required schema.
+
+              Job Description:
+              ---
+              {{job_description}}
+              ---
+            `,
+            assessJobPrompt: `
+              You are an expert recruitment consultant. Your task is to analyze a job description and extract key information to help a recruiter understand the role better.
+
+              Instructions:
+              1.  Read the Job Description carefully.
+              2.  Write a concise, one-paragraph summary of the role.
+              3.  Extract a list of the 4-6 most important key responsibilities.
+              4.  Identify and list the key technical/hard skills required.
+              5.  Identify and list the key soft skills or behavioral competencies desired.
+              6.  The final output must be a JSON object matching the required schema.
+
+              Job Description:
+              ---
+              {{job_description}}
+              ---
+            `,
+            suggestImprovementsPrompt: `
+              You are an expert recruitment copywriter and Diversity & Inclusion specialist. Your task is to analyze the following job description and suggest improvements to make it clearer, more engaging for top candidates, and more inclusive.
+
+              Instructions:
+              1.  Read the Job Description carefully.
+              2.  Suggest a more impactful and concise title for the role.
+              3.  Provide 2-3 specific suggestions to improve the CLARITY of the responsibilities and requirements.
+              4.  Provide 2-3 specific suggestions to improve the TONE and ENGAGEMENT to attract top talent.
+              5.  Provide 2-3 specific suggestions to improve INCLUSIVITY by removing biased language or adding inclusive statements.
+              6.  Finally, provide a complete, revised version of the job description incorporating your suggestions.
+              7.  The final output must be a JSON object matching the required schema.
+
+              Job Description:
+              ---
+              {{job_description}}
+              ---
             `
           },
           pipeline: {
@@ -274,7 +339,9 @@ i18n
             buttons: {
               next: "Próximo: Adicionar Candidatos",
               back: "Voltar para Vaga",
-              startOver: "Analisar Nova Vaga"
+              startOver: "Analisar Nova Vaga",
+              assessJob: "Avaliar Vaga",
+              suggestImprovements: "Sugerir Melhorias com IA"
             }
           },
           step1: {
@@ -298,9 +365,10 @@ i18n
             },
             add: 'Adicionar Critério',
             remove: 'Remover Critério',
+            suggestWithAI: 'Sugerir com IA',
           },
           loader: {
-            analyzingText: 'Analisando Candidatos...',
+            analyzingText: 'Analisando...',
             waitText: 'Isso pode levar um momento.',
             loadingTest: 'Carregando Teste...'
           },
@@ -337,6 +405,21 @@ i18n
             tryAgain: 'Ocorreu um erro durante a análise. Por favor, verifique os dados e tente novamente.',
             loadTestError: 'Falha ao carregar o teste. Por favor, tente novamente mais tarde.',
             couldNotLoad: 'Não foi possível carregar os dados do teste.'
+          },
+          jobAssessment: {
+            title: "Análise da Descrição da Vaga",
+            summary: "Resumo da Posição",
+            responsibilities: "Principais Responsabilidades",
+            hardSkills: "Habilidades Técnicas (Hard Skills)",
+            softSkills: "Habilidades Comportamentais (Soft Skills)"
+          },
+          jobImprovements: {
+            title: "Sugestões da IA",
+            suggestedTitle: "Título Sugerido",
+            clarity: "Clareza",
+            engagement: "Engajamento",
+            inclusivity: "Inclusividade",
+            revisedDescription: "Descrição Revisada"
           },
           tests: {
               startButton: 'Iniciar Teste',
@@ -444,6 +527,53 @@ i18n
               CV do Candidato:
               ---
               {{candidate_cv}}
+              ---
+            `,
+            suggestCriteriaPrompt: `
+              Você é um estrategista de recrutamento especialista. Analise a Descrição da Vaga a seguir e identifique as habilidades, experiências e qualificações mais críticas.
+
+              Instruções:
+              1. Leia atentamente a Descrição da Vaga.
+              2. Identifique uma lista de 5 a 7 critérios essenciais para avaliar um candidato para esta função.
+              3. Para cada critério, atribua um peso de importância de 1 (Baixo) a 5 (Alto).
+              4. A saída deve ser um objeto JSON que siga estritamente o esquema exigido.
+
+              Descrição da Vaga:
+              ---
+              {{job_description}}
+              ---
+            `,
+            assessJobPrompt: `
+              Você é um consultor de recrutamento especialista. Sua tarefa é analisar a descrição de uma vaga e extrair informações-chave para ajudar um recrutador a entender melhor a posição.
+
+              Instruções:
+              1. Leia atentamente a Descrição da Vaga.
+              2. Escreva um resumo conciso de um parágrafo sobre a função.
+              3. Extraia uma lista das 4 a 6 responsabilidades-chave mais importantes.
+              4. Identifique e liste as principais habilidades técnicas (hard skills) necessárias.
+              5. Identifique e liste as principais habilidades comportamentais (soft skills) desejadas.
+              6. A saída final deve ser um objeto JSON que corresponda ao esquema exigido.
+
+              Descrição da Vaga:
+              ---
+              {{job_description}}
+              ---
+            `,
+            suggestImprovementsPrompt: `
+              Você é um redator especialista em recrutamento e especialista em Diversidade e Inclusão. Sua tarefa é analisar a descrição de vaga a seguir e sugerir melhorias para torná-la mais clara, mais atraente para os melhores candidatos e mais inclusiva.
+
+              Instruções:
+              1.  Leia atentamente a Descrição da Vaga.
+              2.  Sugira um título mais impactante e conciso para a função.
+              3.  Forneça 2-3 sugestões específicas para melhorar a CLAREZA das responsabilidades e requisitos.
+              4.  Forneça 2-3 sugestões específicas para melhorar o TOM e o ENGAJAMENTO para atrair os melhores talentos.
+              5.  Forneça 2-3 sugestões específicas para melhorar a INCLUSIVIDADE, removendo linguagem tendenciosa ou adicionando declarações inclusivas.
+              6.  Finalmente, forneça uma versão completa e revisada da descrição da vaga, incorporando suas sugestões.
+              7.  A saída final deve ser um objeto JSON que corresponda ao esquema exigido.
+
+              Descrição da Vaga:
+              ---
+              {{job_description}}
               ---
             `
           },

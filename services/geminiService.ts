@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { AnalysisResult, Criterion } from '../types';
+import { AnalysisResult, Criterion, JobAssessment, JobImprovementSuggestions } from '../types';
 import i18n from '../i18n';
 
 const apiKey = process.env.API_KEY;
@@ -8,6 +8,8 @@ if (!apiKey) {
 }
 
 const ai = new GoogleGenAI({ apiKey });
+
+// --- Schema for Candidate Analysis ---
 
 const scoreSchema = {
   type: Type.OBJECT,
@@ -76,6 +78,95 @@ const analysisSchema = {
   required: ['candidateName', 'scores', 'workExperience', 'education', 'skills'],
 };
 
+// --- Schema for Criteria Suggestion ---
+
+const suggestedCriterionSchema = {
+    type: Type.OBJECT,
+    properties: {
+        name: {
+            type: Type.STRING,
+            description: "The name of the evaluation criterion."
+        },
+        weight: {
+            type: Type.NUMBER,
+            description: "An integer weight from 1 (Low) to 5 (High) representing the criterion's importance."
+        }
+    },
+    required: ['name', 'weight']
+};
+
+const criteriaSuggestionSchema = {
+    type: Type.OBJECT,
+    properties: {
+        criteria: {
+            type: Type.ARRAY,
+            description: "A list of 5 to 7 suggested criteria.",
+            items: suggestedCriterionSchema
+        }
+    },
+    required: ['criteria']
+};
+
+// --- Schema for Job Assessment ---
+
+const jobAssessmentSchema = {
+    type: Type.OBJECT,
+    properties: {
+        roleSummary: {
+            type: Type.STRING,
+            description: "A concise, one-paragraph summary of the role."
+        },
+        keyResponsibilities: {
+            type: Type.ARRAY,
+            description: "A list of the 4-6 most important key responsibilities.",
+            items: { type: Type.STRING }
+        },
+        hardSkills: {
+            type: Type.ARRAY,
+            description: "A list of key technical/hard skills required.",
+            items: { type: Type.STRING }
+        },
+        softSkills: {
+            type: Type.ARRAY,
+            description: "A list of key soft skills or behavioral competencies desired.",
+            items: { type: Type.STRING }
+        }
+    },
+    required: ['roleSummary', 'keyResponsibilities', 'hardSkills', 'softSkills']
+};
+
+// --- Schema for Job Improvement Suggestions ---
+
+const jobImprovementSchema = {
+    type: Type.OBJECT,
+    properties: {
+        suggestedTitle: {
+            type: Type.STRING,
+            description: "A more impactful and concise title for the role."
+        },
+        claritySuggestions: {
+            type: Type.ARRAY,
+            description: "A list of suggestions to improve clarity.",
+            items: { type: Type.STRING }
+        },
+        engagementSuggestions: {
+            type: Type.ARRAY,
+            description: "A list of suggestions to improve tone and engagement.",
+            items: { type: Type.STRING }
+        },
+        inclusivitySuggestions: {
+            type: Type.ARRAY,
+            description: "A list of suggestions to improve inclusivity.",
+            items: { type: Type.STRING }
+        },
+        revisedDescription: {
+            type: Type.STRING,
+            description: "The full, revised text of the job description incorporating all suggestions."
+        }
+    },
+    required: ['suggestedTitle', 'claritySuggestions', 'engagementSuggestions', 'inclusivitySuggestions', 'revisedDescription']
+};
+
 
 export const analyzeCandidate = async (
   jobDescription: string,
@@ -112,4 +203,97 @@ export const analyzeCandidate = async (
     console.error('Error analyzing candidate with Gemini:', error);
     throw new Error('Failed to analyze candidate.');
   }
+};
+
+export const suggestCriteria = async (
+    jobDescription: string,
+    language: string
+): Promise<Omit<Criterion, 'id'>[]> => {
+    const t = i18n.getFixedT(language);
+    const prompt = t('gemini.suggestCriteriaPrompt', {
+        job_description: jobDescription,
+        interpolation: { escapeValue: false }
+    });
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: 'application/json',
+                responseSchema: criteriaSuggestionSchema,
+            }
+        });
+        const jsonText = response.text.trim();
+        const result = JSON.parse(jsonText);
+        
+        // Validate and clamp weights to be within 1-5 range
+        if (result.criteria && Array.isArray(result.criteria)) {
+            return result.criteria.map((c: any) => ({
+                name: c.name,
+                weight: Math.max(1, Math.min(5, Math.round(c.weight || 3))),
+            }));
+        }
+        return [];
+
+    } catch (error) {
+        console.error('Error suggesting criteria with Gemini:', error);
+        throw new Error('Failed to suggest criteria.');
+    }
+};
+
+export const assessJobDescription = async (
+    jobDescription: string,
+    language: string
+): Promise<JobAssessment> => {
+    const t = i18n.getFixedT(language);
+    const prompt = t('gemini.assessJobPrompt', {
+        job_description: jobDescription,
+        interpolation: { escapeValue: false }
+    });
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: 'application/json',
+                responseSchema: jobAssessmentSchema,
+            }
+        });
+        const jsonText = response.text.trim();
+        const result = JSON.parse(jsonText);
+        return result as JobAssessment;
+    } catch (error) {
+        console.error('Error assessing job description with Gemini:', error);
+        throw new Error('Failed to assess job description.');
+    }
+};
+
+export const suggestJobImprovements = async (
+    jobDescription: string,
+    language: string
+): Promise<JobImprovementSuggestions> => {
+    const t = i18n.getFixedT(language);
+    const prompt = t('gemini.suggestImprovementsPrompt', {
+        job_description: jobDescription,
+        interpolation: { escapeValue: false }
+    });
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: 'application/json',
+                responseSchema: jobImprovementSchema,
+            }
+        });
+        const jsonText = response.text.trim();
+        const result = JSON.parse(jsonText);
+        return result as JobImprovementSuggestions;
+    } catch (error) {
+        console.error('Error suggesting job improvements with Gemini:', error);
+        throw new Error('Failed to suggest job improvements.');
+    }
 };

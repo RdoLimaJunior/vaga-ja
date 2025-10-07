@@ -44,6 +44,21 @@ export interface AnalysisResult {
   skills: string[];
 }
 
+export interface JobAssessment {
+  roleSummary: string;
+  keyResponsibilities: string[];
+  hardSkills: string[];
+  softSkills: string[];
+}
+
+export interface JobImprovementSuggestions {
+  suggestedTitle: string;
+  claritySuggestions: string[];
+  engagementSuggestions: string[];
+  inclusivitySuggestions: string[];
+  revisedDescription: string;
+}
+
 // Behavioral Test Types
 export type TestType = 'big-five' | 'disc' | 'sjt';
 
