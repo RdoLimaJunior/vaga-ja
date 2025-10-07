@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { AnalysisResult, Criterion, JobAssessment, JobImprovementSuggestions } from '../types';
+import { AnalysisResult, Criterion, JobAssessment, JobImprovementSuggestions, GeneratedJobDescription } from '../types';
 import i18n from '../i18n';
 
 const apiKey = process.env.API_KEY;
@@ -112,6 +112,14 @@ const criteriaSuggestionSchema = {
 const jobAssessmentSchema = {
     type: Type.OBJECT,
     properties: {
+        cboCode: {
+            type: Type.STRING,
+            description: "The corresponding CBO (Classificação Brasileira de Ocupações) code for the job, if a match is found. Example: '2522-10'."
+        },
+        cboTitle: {
+            type: Type.STRING,
+            description: "The official title for the matched CBO code. Example: 'Analista de Negócios'."
+        },
         roleSummary: {
             type: Type.STRING,
             description: "A concise, one-paragraph summary of the role."
@@ -167,6 +175,50 @@ const jobImprovementSchema = {
     required: ['suggestedTitle', 'claritySuggestions', 'engagementSuggestions', 'inclusivitySuggestions', 'revisedDescription']
 };
 
+// --- Schema for Job Description Generation ---
+
+const jobDescriptionGenerationSchema = {
+    type: Type.OBJECT,
+    properties: {
+        jobTitle: {
+            type: Type.STRING,
+            description: "A clear and concise title for the job role."
+        },
+        fullDescriptionText: {
+            type: Type.STRING,
+            description: "The complete, well-formatted job description text, including sections for summary, responsibilities, and qualifications."
+        }
+    },
+    required: ['jobTitle', 'fullDescriptionText']
+};
+
+
+export const generateJobDescriptionFromBrief = async (
+    jobBrief: string,
+    language: string
+): Promise<GeneratedJobDescription> => {
+    const t = i18n.getFixedT(language);
+    const prompt = t('gemini.generateJobDescriptionPrompt', {
+        job_brief: jobBrief,
+        interpolation: { escapeValue: false }
+    });
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: 'application/json',
+                responseSchema: jobDescriptionGenerationSchema,
+            }
+        });
+        const jsonText = response.text.trim();
+        const result = JSON.parse(jsonText);
+        return result as GeneratedJobDescription;
+    } catch (error) {
+        console.error('Error generating job description with Gemini:', error);
+        throw new Error('Failed to generate job description.');
+    }
+};
 
 export const analyzeCandidate = async (
   jobDescription: string,

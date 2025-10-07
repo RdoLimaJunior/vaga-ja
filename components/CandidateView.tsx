@@ -84,7 +84,7 @@ const CandidateView: React.FC = () => {
                                 id="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
-                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 bg-white text-slate-800"
                                 placeholder={t('candidateView.form.namePlaceholder')}
                                 required
                             />
@@ -103,7 +103,7 @@ const CandidateView: React.FC = () => {
                                 id="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
-                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 bg-white text-slate-800"
                                 placeholder={t('candidateView.form.emailPlaceholder')}
                                 required
                             />
@@ -122,7 +122,7 @@ const CandidateView: React.FC = () => {
                                 id="phone"
                                 value={formData.phone}
                                 onChange={handleInputChange}
-                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 bg-white text-slate-800"
                                 placeholder={t('candidateView.form.phonePlaceholder')}
                             />
                         </div>
@@ -140,7 +140,7 @@ const CandidateView: React.FC = () => {
                                 id="desiredRole"
                                 value={formData.desiredRole}
                                 onChange={handleInputChange}
-                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 bg-white text-slate-800"
                                 placeholder={t('candidateView.form.rolePlaceholder')}
                                 required
                             />

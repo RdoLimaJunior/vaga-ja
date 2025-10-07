@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ClipboardDocumentListIcon, UsersIcon, ChartBarSquareIcon } from './icons';
+import { PencilIcon, SparklesIcon, UserGroupIcon, Cog6ToothIcon, UsersIcon, ChartBarSquareIcon } from './icons';
 
 interface StepIndicatorProps {
   currentStep: number;
@@ -9,9 +9,12 @@ interface StepIndicatorProps {
 const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
   const { t } = useTranslation();
   const steps = [
-    { id: 1, name: t('app.steps.step1'), icon: ClipboardDocumentListIcon },
-    { id: 2, name: t('app.steps.step2'), icon: UsersIcon },
-    { id: 3, name: t('app.steps.step3'), icon: ChartBarSquareIcon },
+    { id: 1, name: t('app.steps.step1'), icon: PencilIcon },
+    { id: 2, name: t('app.steps.step2'), icon: SparklesIcon },
+    { id: 3, name: t('app.steps.step3'), icon: UserGroupIcon },
+    { id: 4, name: t('app.steps.step4'), icon: Cog6ToothIcon },
+    { id: 5, name: t('app.steps.step5'), icon: UsersIcon },
+    { id: 6, name: t('app.steps.step6'), icon: ChartBarSquareIcon },
   ];
 
   return (

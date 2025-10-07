@@ -15,32 +15,95 @@ i18n
             title: 'VagaJá',
             recruiterArea: "Recruiter Area",
             candidateArea: "Candidate Area",
+            workflowArea: "Workflow",
             recruiterDescription: "Manage jobs, candidates, and AI analysis.",
             candidateDescription: "Take assessments and track your applications.",
             analyzeButton: 'Analyze & Rank Candidates',
             analysisResultTitle: 'Ranked Candidates',
             behavioralAssessmentsTitle: 'Behavioral Assessments',
             steps: {
-              step1: "Define Job & Pipeline",
-              step2: "Add Candidates & Criteria",
-              step3: "View Results"
+              step1: "Create Description",
+              step2: "Refine Description",
+              step3: "Culture Mapping",
+              step4: "Configure Pipeline",
+              step5: "Add Candidates & Criteria",
+              step6: "View Results"
             },
             buttons: {
-              next: "Next: Add Candidates",
-              back: "Back to Job Setup",
-              startOver: "Analyze Another Role",
+              next: "Next",
+              back: "Back",
+              startOver: "Create New Vacancy",
               assessJob: "Assess Job Description",
-              suggestImprovements: "Suggest Improvements with AI"
+              suggestImprovements: "Suggest Improvements with AI",
+              generateWithAI: "Generate with AI",
+              writeManually: "Write Manually",
+              createDescription: "Create Description",
+              confirmAndProceed: "Confirm Job & Pipeline",
+              edit: "Edit",
+              save: "Save",
+              cancel: "Cancel",
             }
           },
           step1: {
+            title: "How do you want to create the job description?",
+            ai_title: "Generate with AI",
+            ai_description: "Provide a brief, and let AI write a complete job description for you.",
+            ai_brief_label: "Job Brief",
+            ai_brief_placeholder: "e.g., Senior React Developer, 5+ years experience, TypeScript, remote-first company in the fintech sector.",
+            manual_title: "Write Manually",
+            manual_description: "Paste or write the full job description yourself.",
             jobDescription: "Job Description",
             jobDescriptionPlaceholder: "Paste the full job description here...",
           },
           step2: {
+            title: "Refine Description & Contract Details",
+            jobDescription: "Job Description",
+            contractTypeLabel: "Contract Type"
+          },
+          step3_culture: {
+            title: "Define Your Company Culture",
+            description: "Adjust the sliders to represent the cultural profile you are looking for. This will help find candidates with the best fit.",
+          },
+          step4_pipeline: {
+              title: "Configure the Selection Pipeline"
+          },
+          step5_candidates: {
+            title: "Add Candidates & Define Criteria",
             candidates: "Candidate CVs",
             candidatesPlaceholder: "Paste one or more candidate CVs here, separated by '---'",
             criteria: "Evaluation Criteria"
+          },
+          workflow: {
+            title: "Application Workflow",
+            description: "This document outlines the defined process for candidates and recruiters. Click 'Edit' to make changes.",
+            edit_notice: "You are now editing the workflow document. Saving is simulated in this demo."
+          },
+          cultureMapping: {
+            pace: "Pace",
+            pace_ends: {
+                left: "Relaxed",
+                right: "Fast-Paced"
+            },
+            structure: "Structure",
+            structure_ends: {
+                left: "Flexible",
+                right: "Formal"
+            },
+            collaboration: "Collaboration",
+            collaboration_ends: {
+                left: "Autonomous",
+                right: "Team-Oriented"
+            },
+            communication: "Communication",
+            communication_ends: {
+                left: "Indirect",
+                right: "Direct"
+            },
+            focus: "Focus",
+            focus_ends: {
+                left: "Process",
+                right: "Results"
+            }
           },
           criteria: {
             title: 'Evaluation Criteria',
@@ -59,7 +122,9 @@ i18n
           loader: {
             analyzingText: 'Analyzing...',
             waitText: 'This might take a moment.',
-            loadingTest: 'Loading Test...'
+            loadingTest: 'Loading Test...',
+            generating: 'Generating...',
+            loading: "Loading..."
           },
           candidateCard: {
             overallScore: 'Overall Score',
@@ -93,14 +158,18 @@ i18n
             analysisFailed: 'Analysis Failed',
             tryAgain: 'An error occurred while analyzing. Please check your inputs and try again.',
             loadTestError: 'Failed to load the test. Please try again later.',
-            couldNotLoad: 'Could not load test data.'
+            couldNotLoad: 'Could not load test data.',
+            workflowLoad: "Could not load the workflow document."
           },
           jobAssessment: {
             title: "Job Description Analysis",
             summary: "Role Summary",
             responsibilities: "Key Responsibilities",
             hardSkills: "Technical Skills",
-            softSkills: "Soft Skills"
+            softSkills: "Soft Skills",
+            cboTitle: "Official CBO Classification",
+            cboWarningTitle: "CBO Classification Not Found",
+            cboWarningText: "The job described could not be associated with an official Brazilian Classification of Occupations (CBO). Please review the description or proceed with caution."
           },
           jobImprovements: {
             title: "AI-Powered Suggestions",
@@ -233,15 +302,20 @@ i18n
               ---
             `,
             assessJobPrompt: `
-              You are an expert recruitment consultant. Your task is to analyze a job description and extract key information to help a recruiter understand the role better.
+              You are an expert recruitment consultant. Your task is to analyze a job description and extract key information.
 
+              MANDATORY RULE: All jobs must be based on the Brazilian Classification of Occupations (CBO).
+              
               Instructions:
-              1.  Read the Job Description carefully.
-              2.  Write a concise, one-paragraph summary of the role.
-              3.  Extract a list of the 4-6 most important key responsibilities.
-              4.  Identify and list the key technical/hard skills required.
-              5.  Identify and list the key soft skills or behavioral competencies desired.
-              6.  The final output must be a JSON object matching the required schema.
+              1.  First, identify the corresponding CBO code and title for this job. Search the official list.
+              2.  If you find a clear match, include the 'cboCode' and 'cboTitle' in your response.
+              3.  If the job does not match any official CBO occupation, DO NOT INVENT one. Leave the 'cboCode' and 'cboTitle' fields blank or null.
+              4.  Carefully read the Job Description.
+              5.  Write a concise, one-paragraph summary of the role.
+              6.  Extract a list of the 4-6 most important key responsibilities.
+              7.  Identify and list the key technical/hard skills required.
+              8.  Identify and list the key soft skills or behavioral competencies desired.
+              9.  The final output must be a JSON object matching the required schema.
 
               Job Description:
               ---
@@ -263,6 +337,25 @@ i18n
               Job Description:
               ---
               {{job_description}}
+              ---
+            `,
+             generateJobDescriptionPrompt: `
+              You are an expert HR copywriter specializing in creating compelling job descriptions. Your task is to expand a brief job title or concept into a full, professional job description.
+
+              Instructions:
+              1.  Analyze the provided brief to understand the core role.
+              2.  Create a clear and engaging Job Title.
+              3.  Write a complete job description that includes the following sections:
+                  - A brief, compelling summary of the role.
+                  - A bulleted list of key responsibilities.
+                  - A bulleted list of required qualifications and skills (both technical and soft).
+                  - A concluding sentence about the company culture or opportunity.
+              4.  Ensure the tone is professional, engaging, and inclusive.
+              5.  The final output must be a JSON object containing the suggested 'jobTitle' and the complete 'fullDescriptionText'.
+
+              Job Brief:
+              ---
+              {{job_brief}}
               ---
             `
           },
@@ -317,6 +410,42 @@ i18n
                 example: "Example: Manager approves or rejects the candidate for an offer."
               }
             }
+          },
+          contractTypes: {
+            cltGroup: "CLT Contracts",
+            otherGroup: "Other Contract Types",
+            undetermined: {
+              name: "Indefinite Term",
+              description: "The standard model, with no end date. It offers stability and all rights provided by CLT, such as vacations, 13th salary, and FGTS."
+            },
+            determined: {
+              name: "Fixed Term",
+              description: "With predefined start and end dates. It generally has a maximum duration of two years and is used in specific cases, such as trial contracts (up to 90 days) or temporary projects."
+            },
+            intermittent: {
+              name: "Intermittent",
+              description: "The professional is called to work in alternating periods, receiving payment per hour or day. The contract is registered, but the service is not continuous, ideal for seasonal or on-demand activities."
+            },
+            partTime: {
+              name: "Part-Time",
+              description: "The workday is reduced, with a limit of 30 hours per week (without overtime) or 26 hours per week (with up to 6 hours of overtime). Rights are proportional to the workload."
+            },
+            temporary: {
+              name: "Temporary",
+              description: "Used to meet complementary service demands or to temporarily replace employees. The maximum duration is 180 days, extendable for another 90."
+            },
+            pj: {
+              name: "Service Provider (PJ)",
+              description: "The professional is hired as a Legal Entity (PJ). There is no employment relationship, time control, or subordination, ideal for specialized and autonomous services."
+            },
+            internship: {
+              name: "Internship",
+              description: "Aimed at students in training. It is regulated by its own law (Internship Law), does not constitute an employment relationship, and requires supervision by a professional in the area."
+            },
+            freelance: {
+              name: "Freelance/Autonomous",
+              description: "The professional works independently, without an employment relationship with the contractor. There is no subordination, exclusivity, or regularity."
+            }
           }
         },
       },
@@ -326,32 +455,95 @@ i18n
             title: 'VagaJá',
             recruiterArea: "Área do Recrutador",
             candidateArea: "Área do Candidato",
+            workflowArea: "Fluxo de Trabalho",
             recruiterDescription: "Gerencie vagas, candidatos e análises de IA.",
             candidateDescription: "Realize avaliações e acompanhe suas candidaturas.",
             analyzeButton: 'Analisar e Rankear Candidatos',
             analysisResultTitle: 'Candidatos Rankeados',
             behavioralAssessmentsTitle: 'Avaliações Comportamentais',
             steps: {
-              step1: "Definir Vaga e Pipeline",
-              step2: "Adicionar Candidatos e Critérios",
-              step3: "Ver Resultados"
+              step1: "Criar Vaga",
+              step2: "Refinar Descrição",
+              step3: "Mapeamento Cultural",
+              step4: "Configurar Pipeline",
+              step5: "Adicionar Candidatos e Critérios",
+              step6: "Ver Resultados"
             },
             buttons: {
-              next: "Próximo: Adicionar Candidatos",
-              back: "Voltar para Vaga",
-              startOver: "Analisar Nova Vaga",
+              next: "Próximo",
+              back: "Voltar",
+              startOver: "Criar Nova Vaga",
               assessJob: "Avaliar Vaga",
-              suggestImprovements: "Sugerir Melhorias com IA"
+              suggestImprovements: "Sugerir Melhorias com IA",
+              generateWithAI: "Gerar com IA",
+              writeManually: "Escrever Manualmente",
+              createDescription: "Criar Descrição",
+              confirmAndProceed: "Confirmar e Continuar",
+              edit: "Editar",
+              save: "Salvar",
+              cancel: "Cancelar",
             }
           },
           step1: {
+            title: "Como você quer criar a descrição da vaga?",
+            ai_title: "Gerar com IA",
+            ai_description: "Forneça um resumo e deixe a IA escrever uma descrição de vaga completa para você.",
+            ai_brief_label: "Resumo da Vaga",
+            ai_brief_placeholder: "Ex: Desenvolvedor Frontend Sênior, 5+ anos de experiência, TypeScript, empresa de fintech com trabalho remoto.",
+            manual_title: "Escrever Manualmente",
+            manual_description: "Cole ou escreva você mesmo a descrição completa da vaga.",
             jobDescription: "Descrição da Vaga",
             jobDescriptionPlaceholder: "Cole a descrição completa da vaga aqui...",
           },
           step2: {
+            title: "Refinar Descrição e Detalhes do Contrato",
+            jobDescription: "Descrição da Vaga",
+            contractTypeLabel: "Tipo de Contrato de Trabalho"
+          },
+          step3_culture: {
+            title: "Mapeamento da Cultura da Vaga",
+            description: "Ajuste os controles para representar o perfil cultural que você procura. Isso ajudará a encontrar candidatos com o melhor fit.",
+          },
+          step4_pipeline: {
+            title: "Configurar o Pipeline de Seleção",
+          },
+          step5_candidates: {
+            title: "Adicionar Candidatos e Definir Critérios",
             candidates: "CVs dos Candidatos",
             candidatesPlaceholder: "Cole um ou mais CVs de candidatos aqui, separados por '---'",
             criteria: "Critérios de Avaliação"
+          },
+          workflow: {
+            title: "Fluxo de Trabalho da Aplicação",
+            description: "Este documento descreve o processo definido para candidatos e recrutadores. Clique em 'Editar' para fazer alterações.",
+            edit_notice: "Você está editando o documento de fluxo de trabalho. O salvamento é simulado nesta demonstração."
+          },
+           cultureMapping: {
+            pace: "Ritmo",
+            pace_ends: {
+                left: "Calmo",
+                right: "Acelerado"
+            },
+            structure: "Estrutura",
+            structure_ends: {
+                left: "Flexível",
+                right: "Formal"
+            },
+            collaboration: "Colaboração",
+            collaboration_ends: {
+                left: "Autônomo",
+                right: "Colaborativo"
+            },
+            communication: "Comunicação",
+            communication_ends: {
+                left: "Indireta",
+                right: "Direta"
+            },
+            focus: "Foco",
+            focus_ends: {
+                left: "Processo",
+                right: "Resultado"
+            }
           },
           criteria: {
             title: 'Critérios de Avaliação',
@@ -370,7 +562,9 @@ i18n
           loader: {
             analyzingText: 'Analisando...',
             waitText: 'Isso pode levar um momento.',
-            loadingTest: 'Carregando Teste...'
+            loadingTest: 'Carregando Teste...',
+            generating: 'Gerando...',
+            loading: "Carregando..."
           },
           candidateCard: {
             overallScore: 'Pontuação Geral',
@@ -404,14 +598,18 @@ i18n
             analysisFailed: 'Falha na Análise',
             tryAgain: 'Ocorreu um erro durante a análise. Por favor, verifique os dados e tente novamente.',
             loadTestError: 'Falha ao carregar o teste. Por favor, tente novamente mais tarde.',
-            couldNotLoad: 'Não foi possível carregar os dados do teste.'
+            couldNotLoad: 'Não foi possível carregar os dados do teste.',
+            workflowLoad: "Não foi possível carregar o documento de fluxo de trabalho."
           },
           jobAssessment: {
             title: "Análise da Descrição da Vaga",
             summary: "Resumo da Posição",
             responsibilities: "Principais Responsabilidades",
             hardSkills: "Habilidades Técnicas (Hard Skills)",
-            softSkills: "Habilidades Comportamentais (Soft Skills)"
+            softSkills: "Habilidades Comportamentais (Soft Skills)",
+            cboTitle: "Classificação Oficial CBO",
+            cboWarningTitle: "Classificação CBO Não Encontrada",
+            cboWarningText: "A vaga descrita não pôde ser associada a uma Classificação Brasileira de Ocupações (CBO) oficial. Revise a descrição ou prossiga com cautela."
           },
           jobImprovements: {
             title: "Sugestões da IA",
@@ -544,15 +742,20 @@ i18n
               ---
             `,
             assessJobPrompt: `
-              Você é um consultor de recrutamento especialista. Sua tarefa é analisar a descrição de uma vaga e extrair informações-chave para ajudar um recrutador a entender melhor a posição.
+              Você é um consultor de recrutamento especialista. Sua tarefa é analisar a descrição de uma vaga e extrair informações-chave.
 
+              REGRA OBRIGATÓRIA: Todas as vagas devem ser baseadas na Classificação Brasileira de Ocupações (CBO).
+              
               Instruções:
-              1. Leia atentamente a Descrição da Vaga.
-              2. Escreva um resumo conciso de um parágrafo sobre a função.
-              3. Extraia uma lista das 4 a 6 responsabilidades-chave mais importantes.
-              4. Identifique e liste as principais habilidades técnicas (hard skills) necessárias.
-              5. Identifique e liste as principais habilidades comportamentais (soft skills) desejadas.
-              6. A saída final deve ser um objeto JSON que corresponda ao esquema exigido.
+              1.  Primeiro, identifique o código e o título da CBO correspondente para esta vaga. Pesquise na lista oficial.
+              2.  Se você encontrar uma correspondência clara, inclua o 'cboCode' e 'cboTitle' na sua resposta.
+              3.  Se a vaga não corresponder a nenhuma ocupação oficial da CBO, NÃO INVENTE. Deixe os campos 'cboCode' e 'cboTitle' em branco ou nulos.
+              4.  Leia atentamente a Descrição da Vaga.
+              5.  Escreva um resumo conciso de um parágrafo sobre a função.
+              6.  Extraia uma lista das 4 a 6 responsabilidades-chave mais importantes.
+              7.  Identifique e liste as principais habilidades técnicas (hard skills) necessárias.
+              8.  Identifique e liste as principais habilidades comportamentais (soft skills) desejadas.
+              9.  A saída final deve ser um objeto JSON que corresponda ao esquema exigido.
 
               Descrição da Vaga:
               ---
@@ -574,6 +777,25 @@ i18n
               Descrição da Vaga:
               ---
               {{job_description}}
+              ---
+            `,
+             generateJobDescriptionPrompt: `
+              Você é um redator especialista em RH, especializado em criar descrições de vagas atraentes. Sua tarefa é expandir um breve título ou conceito de vaga em uma descrição de cargo completa e profissional.
+
+              Instruções:
+              1. Analise o resumo fornecido para entender a função principal.
+              2. Crie um Título de Vaga claro e envolvente.
+              3. Escreva uma descrição de vaga completa que inclua as seguintes seções:
+                  - Um resumo breve e atraente da função.
+                  - Uma lista com marcadores das principais responsabilidades.
+                  - Uma lista com marcadores das qualificações e habilidades necessárias (técnicas e comportamentais).
+                  - Uma frase final sobre a cultura da empresa ou a oportunidade.
+              4. Garanta que o tom seja profissional, envolvente e inclusivo.
+              5. A saída final deve ser um objeto JSON contendo o 'jobTitle' sugerido e o texto completo da descrição em 'fullDescriptionText'.
+
+              Resumo da Vaga:
+              ---
+              {{job_brief}}
               ---
             `
           },
@@ -608,7 +830,7 @@ i18n
                 example: "Exemplo: Prova de lógica de programação ou Excel avançado."
               },
               video_apresentacao: {
-                name: "Vídeo de Apresentação",
+                name: "Víodo de Apresentação",
                 description: "Candidato grava vídeo curto respondendo a uma pergunta-chave.",
                 example: "Exemplo: Fale em até 2 minutos sobre um desafio que você superou."
               },
@@ -627,6 +849,42 @@ i18n
                 description: "Recrutadores avaliam notas, afinidade e feedbacks das etapas anteriores para tomar decisão.",
                 example: "Exemplo: Gestor aprova ou reprova candidato para proposta."
               }
+            }
+          },
+          contractTypes: {
+            cltGroup: "Contratos celetistas (CLT)",
+            otherGroup: "Outros tipos de contrato",
+            undetermined: {
+              name: "Prazo Indeterminado",
+              description: "É o modelo padrão, sem data para terminar. Oferece estabilidade e todos os direitos previstos na CLT, como férias, 13º salário e FGTS."
+            },
+            determined: {
+              name: "Prazo Determinado",
+              description: "Com data de início e fim predefinidas. Geralmente, tem duração máxima de dois anos e é usado em casos específicos, como contratos de experiência (até 90 dias) ou projetos temporários."
+            },
+            intermittent: {
+              name: "Intermitente",
+              description: "O profissional é convocado para trabalhar em períodos alternados, recebendo por hora ou dia. Tem carteira assinada, mas o serviço não é contínuo, sendo ideal para atividades sazonais ou sob demanda."
+            },
+            partTime: {
+              name: "Tempo Parcial",
+              description: "A jornada de trabalho é reduzida, com limite de 30 horas semanais (sem horas extras) ou 26 horas semanais (com até 6 horas extras). Os direitos são proporcionais à carga horária."
+            },
+            temporary: {
+              name: "Temporário",
+              description: "Utilizado para atender demandas complementares de serviço ou para substituir funcionários temporariamente. A duração máxima é de 180 dias, podendo ser prorrogada por mais 90."
+            },
+            pj: {
+              name: "Prestação de Serviços (PJ)",
+              description: "O profissional é contratado como Pessoa Jurídica (PJ). Não há vínculo empregatício, controle de horário ou subordinação, sendo ideal para serviços especializados e autônomos."
+            },
+            internship: {
+              name: "Estágio",
+              description: "Voltado para estudantes que estão em processo de formação. É regulamentado por lei própria (Lei do Estágio), não configura vínculo empregatício e exige a supervisão de um profissional na área."
+            },
+            freelance: {
+              name: "Autônomo",
+              description: "O profissional trabalha por conta própria, de forma independente, sem vínculo empregatício com o contratante. Não tem subordinação, exclusividade ou habitualidade."
             }
           }
         }

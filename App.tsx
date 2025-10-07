@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RecruiterView from './components/RecruiterView';
 import CandidateView from './components/CandidateView';
-import { CpuChipIcon, BriefcaseIcon, UsersIcon } from './components/icons';
+import WorkflowView from './components/WorkflowView';
+import { CpuChipIcon, BriefcaseIcon, UsersIcon, ClipboardDocumentListIcon } from './components/icons';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
@@ -36,7 +37,7 @@ const LanguageSwitcher: React.FC = () => {
 
 const App: React.FC = () => {
     const { t } = useTranslation();
-    const [view, setView] = useState<'recruiter' | 'candidate'>('recruiter');
+    const [view, setView] = useState<'recruiter' | 'candidate' | 'workflow'>('recruiter');
 
     const ViewSwitcher: React.FC = () => {
         const baseButtonClass = "flex-1 px-4 py-3 text-sm font-bold text-center rounded-lg transition-all duration-300 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
@@ -44,7 +45,7 @@ const App: React.FC = () => {
         const inactiveButtonClass = "bg-transparent text-indigo-100 hover:bg-white/20";
         
         return (
-            <div className="flex p-1 space-x-1 bg-indigo-700/50 rounded-xl max-w-sm mx-auto">
+            <div className="flex p-1 space-x-1 bg-indigo-700/50 rounded-xl max-w-md mx-auto">
                 <button 
                     onClick={() => setView('recruiter')} 
                     className={`${baseButtonClass} ${view === 'recruiter' ? activeButtonClass : inactiveButtonClass}`}
@@ -63,9 +64,31 @@ const App: React.FC = () => {
                         <span>{t('app.candidateArea')}</span>
                     </div>
                 </button>
+                 <button 
+                    onClick={() => setView('workflow')}
+                    className={`${baseButtonClass} ${view === 'workflow' ? activeButtonClass : inactiveButtonClass}`}
+                >
+                    <div className="flex items-center justify-center">
+                        <ClipboardDocumentListIcon className="w-5 h-5 mr-2" />
+                        <span>{t('app.workflowArea')}</span>
+                    </div>
+                </button>
             </div>
         );
     };
+
+    const renderCurrentView = () => {
+        switch (view) {
+            case 'recruiter':
+                return <RecruiterView />;
+            case 'candidate':
+                return <CandidateView />;
+            case 'workflow':
+                return <WorkflowView />;
+            default:
+                return <RecruiterView />;
+        }
+    }
 
     return (
         <div className="min-h-screen bg-slate-100 text-slate-800">
@@ -86,7 +109,7 @@ const App: React.FC = () => {
             </header>
             
             <main className="container px-4 py-8 mx-auto">
-                {view === 'recruiter' ? <RecruiterView /> : <CandidateView />}
+                {renderCurrentView()}
             </main>
         </div>
     );

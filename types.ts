@@ -49,6 +49,8 @@ export interface JobAssessment {
   keyResponsibilities: string[];
   hardSkills: string[];
   softSkills: string[];
+  cboCode?: string;
+  cboTitle?: string;
 }
 
 export interface JobImprovementSuggestions {
@@ -57,6 +59,11 @@ export interface JobImprovementSuggestions {
   engagementSuggestions: string[];
   inclusivitySuggestions: string[];
   revisedDescription: string;
+}
+
+export interface GeneratedJobDescription {
+    jobTitle: string;
+    fullDescriptionText: string;
 }
 
 // Behavioral Test Types
