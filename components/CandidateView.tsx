@@ -51,8 +51,9 @@ const CandidateView: React.FC = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (formData.name && formData.email && formData.desiredRole) {
-            localStorage.setItem('candidateProfile', JSON.stringify(formData));
-            setCandidateProfile(formData);
+            const newProfile = { ...formData };
+            localStorage.setItem('candidateProfile', JSON.stringify(newProfile));
+            setCandidateProfile(newProfile);
         }
     };
     

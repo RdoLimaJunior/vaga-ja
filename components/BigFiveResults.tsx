@@ -17,8 +17,6 @@ const BigFiveResults: React.FC<BigFiveResultsProps> = ({ results, testData, onRe
     return t(`big_five_test.interpretations.${dimension}.moderate`);
   };
 
-  const maxScorePerDimension = testData.teste.perguntas.filter((p: any) => p.dimensao === 'O').length * 5;
-
   return (
     <div>
       <h2 className="mb-6 text-2xl font-bold text-center text-slate-800 md:text-3xl">
@@ -26,6 +24,7 @@ const BigFiveResults: React.FC<BigFiveResultsProps> = ({ results, testData, onRe
       </h2>
       <div className="space-y-6">
         {testData.teste.dimensoes.map((dim: { id: string; nome: string; descricao: string }) => {
+          const maxScorePerDimension = testData.teste.perguntas.filter((p: any) => p.dimensao === dim.id).length * 5;
           const score = results[dim.id] || 0;
           const percentage = (score / maxScorePerDimension) * 100;
           const interpretation = getInterpretation(dim.id, score);
